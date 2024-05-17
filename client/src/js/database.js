@@ -20,26 +20,29 @@ export const putDb = async (content) => {
 
   const store = db.transaction('jate', 'readwrite').objectStore('jate')
 
-  await store.add({ content });
-
-  console.log('Content added to the database');
+  try {
+    await store.put({ id: 1, content: content });
+    console.log('Data added to the database');
+  } catch (error) {
+    console.error('Error adding data to the database:', error);
+  }
 }
 
 // Function to get all content from the database
 export const getDb = async () => {
 
-  const db = await ('jate', 1)
+  const db = await openDB('jate', 1)
+  const store = db.transaction('jate', 'readwrite').objectStore('jate');
 
-  const tx = db.transaction('jate', 'readonly');
-
-  const store = tx.objectStore('jate');
-
-  const allContent = await store.getAll();
-
-  await tx.done;
-
-  return allContent;
+  try {
+    const data = await store.get(1);
+    console.log('Data retrieved from the database:', data);
+    return data?.content;
+  } catch (error) {
+    console.error('Error retrieving data from the database:', error);
+  }
 }
 
 
 initdb();
+

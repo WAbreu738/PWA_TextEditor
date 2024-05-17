@@ -35,8 +35,6 @@ module.exports = (env, argv) => {
     plugins.push(
       new InjectManifest({
         swSrc: './src-sw.js',
-        swDest: '/src-sw.js',
-        exclude: [/\.map$/, /manifest\.json$/, /install\.html$/],
       })
     );
   }
